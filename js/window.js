@@ -1,4 +1,6 @@
-export class Window {
+import { Point, Rect } from "./utils.js"
+
+export default class Window {
     /**
      * @type { boolean }
      */
@@ -49,6 +51,11 @@ export class Window {
      * @type { HTMLDivElement }
      */
     dragArea
+
+    /**
+     * @type { Rect }
+     */
+    #lastSize
 
     /**
      * @type { Function }
@@ -147,17 +154,48 @@ export class Window {
         this.#isMaximized = !this.#isMaximized
 
         if(this.#isMaximized) {
+            let launcher = document.querySelector('#launcher-area')
+            let marginLeft = launcher.clientWidth
+            console.log(marginLeft);
+
+            let desktop = document.querySelector('#draggable-area')
+            let width = desktop.clientWidth
+            
+
             this.#maxButton.classList.add('checked')
             this.#maxButton.childNodes.item(0).innerText = 'collapse_content'
+            let w = parseFloat(this.container.clientWidth)
+            let h = parseFloat(this.container.clientHeight)
+            let x = parseFloat(this.container.style.left)
+            let y = parseFloat(this.container.style.top)
+            this.#lastSize = new Rect(x, y, w, h)
+
+            this.container.style.left = marginLeft + 'px'
+            
+            this.container.style.top = 0
+            this.container.style.width = (width - marginLeft) + 'px'
+            this.container.style.height = '100%'
+
+            console.log(this.#lastSize)
         } else {
             this.#maxButton.classList.remove('checked')
             this.#maxButton.childNodes.item(0).innerText = 'expand_content'
+            
+            this.container.style.left = this.#lastSize.x + 'px'
+            this.container.style.top = this.#lastSize.y + 'px'
+            this.container.style.width = this.#lastSize.w + 'px'
+            this.container.style.height = this.#lastSize.h + 'px'
+
+            console.log(this.#lastSize);
+            
+            
         }
     }
 
     close() {
+        let me = this
         this.container.classList.add('closing')
-        setTimeout(function() {this.container.remove()}, 3000)
+        setTimeout(function() {me.container.remove()}, 3000)
         
     }
 }

@@ -1,6 +1,6 @@
 import { makeDraggable } from "./draggable.js"
 import { makeResizable } from "./resizable.js"
-import { Window } from "./window.js"
+import Window from "./window.js"
 
 /**
  * @type {Array<Window>}
@@ -11,7 +11,7 @@ export function init() {}
 
 export function createWindow(title) {
     // TODO update
-    let win = new Window("TestWin", document.createTextNode('kys'))
+    let win = new Window(title, document.createTextNode('kys'))
     win.setFocusCallback(onWindowFocused)
 
     windows.push(win)
@@ -30,5 +30,3 @@ function onWindowFocused() {
         window.unfocus()
     })
 }
-
-export function closeWindow(window) {}
