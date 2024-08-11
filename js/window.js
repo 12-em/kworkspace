@@ -13,7 +13,7 @@ export default class Window {
     /**
      * @type { boolean }
      */
-    #isMaximized
+    isMaximized
     /**
      * @type { string }
      */
@@ -93,6 +93,11 @@ export default class Window {
         this.dragArea = document.createElement('div')
         this.dragArea.classList.add('window-dragarea')
         this.dragArea.innerText = this.title
+        this.dragArea.onmousedown = function() {
+            console.log("unmzing");
+            
+             if(win.isMaximized) win.unmaximize() 
+            }
 
         this.container.appendChild(this.#titleBar)
 
@@ -151,9 +156,9 @@ export default class Window {
     }
 
     toggleMaximize() {
-        this.#isMaximized = !this.#isMaximized
+        this.isMaximized = !this.isMaximized
 
-        if(this.#isMaximized) {
+        if(this.isMaximized) {
             this.maximize()
         } else {
             this.unmaximize()    
@@ -161,6 +166,7 @@ export default class Window {
     }
 
     maximize() {
+        let win = this
         let launcher = document.querySelector('#launcher-area')
         let marginLeft = launcher.clientWidth
         console.log(marginLeft);
@@ -171,7 +177,7 @@ export default class Window {
 
         this.#maxButton.classList.add('checked')
         this.#maxButton.childNodes.item(0).innerText = 'collapse_content'
-        this.container.classList.add('maximized')
+        this.container.classList.add('animated')
         let w = parseFloat(this.container.clientWidth)
         let h = parseFloat(this.container.clientHeight)
         let x = parseFloat(this.container.style.left)
@@ -184,21 +190,26 @@ export default class Window {
         this.container.style.width = (width - marginLeft) + 'px'
         this.container.style.height = '100%'
 
-        console.log(this.#lastSize)
+        setTimeout(function() {
+            win.container.classList.remove('animated')
+        }, 200)
     }
 
     unmaximize() {
+        let win = this
         this.#maxButton.classList.remove('checked')
         this.#maxButton.childNodes.item(0).innerText = 'expand_content'
 
-        this.container.classList.remove('maximized')
+        this.container.classList.add('animated')
         
         this.container.style.left = this.#lastSize.x + 'px'
         this.container.style.top = this.#lastSize.y + 'px'
         this.container.style.width = this.#lastSize.w + 'px'
         this.container.style.height = this.#lastSize.h + 'px'
 
-        console.log(this.#lastSize);
+        setTimeout(function() {
+            win.container.classList.remove('animated')
+        }, 200)
     }
 
     close() {

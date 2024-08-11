@@ -15,6 +15,10 @@ export function makeDraggable(wmwindow) {
     }
   
     function dragMouseDown(e) {
+      if(wmwindow.isMaximized) {
+        wmwindow.unmaximize()
+        return
+      }
       e = e || window.event;
       e.preventDefault();
       // get the mouse cursor position at startup:

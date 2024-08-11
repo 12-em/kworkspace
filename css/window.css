@@ -11,8 +11,9 @@
     overflow: hidden;
 }
 
-.window-container.maximized {
-    transition: 0.2s;
+.window-container.animated {
+    transition-duration: 0.2s;
+    transition-property: width, height, top, left;
 }
 
 .window-container.closing {
