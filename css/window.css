@@ -11,6 +11,11 @@
     overflow: hidden;
 }
 
+.window-container.closing {
+    transition: 0.3s;
+    transform: scale(0);
+}
+
 .window-titlebar {
     background-color: #fefefe;
     display: flex;
@@ -39,6 +44,27 @@
     background-color: rgba(100, 100, 100, 0.3);
 }
 
+.titlebar-button:active {
+    transition: 0.1s;
+    background-color: rgba(100, 100, 100, 0.5);
+}
+
+.titlebar-button.close {
+    float: left;
+}
+
+.titlebar-button.close:hover {
+    background-color: #FFCDD2;
+}
+
+.titlebar-button.close:active {
+    background-color: #EF9A9A;
+}
+
+.titlebar-button.checked {
+    background-color: rgba(100, 100, 100, 0.3);
+}
+
 .titlebar-button span {
     position: relative;
     transform: scale(0.9);
@@ -49,6 +75,5 @@
     transform: scale(0.79);
 }
 
-.titlebar-button.close {
-    float: left;
-}
+
+

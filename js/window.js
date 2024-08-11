@@ -7,6 +7,11 @@ export class Window {
      * @type { boolean }
      */
     hasFocus
+
+    /**
+     * @type { boolean }
+     */
+    #isMaximized
     /**
      * @type { string }
      */
@@ -27,8 +32,17 @@ export class Window {
      */
     #titleBar
 
+    /**
+     * @type { HTMLDivElement }
+     */
     #closeButton
+    /**
+     * @type { HTMLDivElement }
+     */
     #maxButton
+    /**
+     * @type { HTMLDivElement }
+     */
     #minButton
 
     /**
@@ -65,6 +79,7 @@ export class Window {
     }
 
     #createTitleBar() {
+        let win = this
         this.#titleBar = document.createElement('div')
         this.#titleBar.classList.add('window-titlebar')
 
@@ -80,6 +95,7 @@ export class Window {
         closeIcon.classList.add('material-symbols-outlined')
         closeIcon.innerText = 'close'
         this.#closeButton.appendChild(closeIcon)
+        this.#closeButton.onclick = function() { win.close() }
 
         this.#minButton = document.createElement('div')
         this.#minButton.classList.add('titlebar-button')
@@ -87,6 +103,7 @@ export class Window {
         minIcon.classList.add('material-symbols-outlined')
         minIcon.innerText = 'remove'
         this.#minButton.appendChild(minIcon)
+        this.#minButton.onclick = function() { win.minimize() }
 
         this.#maxButton = document.createElement('div')
         this.#maxButton.classList.add('titlebar-button')
@@ -94,6 +111,7 @@ export class Window {
         maxIcon.classList.add('material-symbols-outlined')
         maxIcon.innerText = 'expand_content'
         this.#maxButton.appendChild(maxIcon)
+        this.#maxButton.onclick = function() { win.toggleMaximize() }
 
         this.#titleBar.appendChild(this.#closeButton)
         this.#titleBar.appendChild(this.dragArea)
@@ -121,11 +139,25 @@ export class Window {
         // TODO
     }
 
-    maximize() {
+    unminimize() {
+        // TODO
+    }
 
+    toggleMaximize() {
+        this.#isMaximized = !this.#isMaximized
+
+        if(this.#isMaximized) {
+            this.#maxButton.classList.add('checked')
+            this.#maxButton.childNodes.item(0).innerText = 'collapse_content'
+        } else {
+            this.#maxButton.classList.remove('checked')
+            this.#maxButton.childNodes.item(0).innerText = 'expand_content'
+        }
     }
 
     close() {
-        this.container.remove()
+        this.container.classList.add('closing')
+        setTimeout(function() {this.container.remove()}, 3000)
+        
     }
 }

@@ -1,1 +1,10 @@
 @import url(window.css);
+
+@font-face {
+    font-family: Inter;
+    src: url(/fonts/inter.ttf);
+}
+
+body {
+    font-family: Inter, sans-serif;
+}
