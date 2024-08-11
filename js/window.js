@@ -154,42 +154,51 @@ export default class Window {
         this.#isMaximized = !this.#isMaximized
 
         if(this.#isMaximized) {
-            let launcher = document.querySelector('#launcher-area')
-            let marginLeft = launcher.clientWidth
-            console.log(marginLeft);
-
-            let desktop = document.querySelector('#draggable-area')
-            let width = desktop.clientWidth
-            
-
-            this.#maxButton.classList.add('checked')
-            this.#maxButton.childNodes.item(0).innerText = 'collapse_content'
-            let w = parseFloat(this.container.clientWidth)
-            let h = parseFloat(this.container.clientHeight)
-            let x = parseFloat(this.container.style.left)
-            let y = parseFloat(this.container.style.top)
-            this.#lastSize = new Rect(x, y, w, h)
-
-            this.container.style.left = marginLeft + 'px'
-            
-            this.container.style.top = 0
-            this.container.style.width = (width - marginLeft) + 'px'
-            this.container.style.height = '100%'
-
-            console.log(this.#lastSize)
+            this.maximize()
         } else {
-            this.#maxButton.classList.remove('checked')
-            this.#maxButton.childNodes.item(0).innerText = 'expand_content'
-            
-            this.container.style.left = this.#lastSize.x + 'px'
-            this.container.style.top = this.#lastSize.y + 'px'
-            this.container.style.width = this.#lastSize.w + 'px'
-            this.container.style.height = this.#lastSize.h + 'px'
-
-            console.log(this.#lastSize);
-            
-            
+            this.unmaximize()    
         }
+    }
+
+    maximize() {
+        let launcher = document.querySelector('#launcher-area')
+        let marginLeft = launcher.clientWidth
+        console.log(marginLeft);
+
+        let desktop = document.querySelector('#draggable-area')
+        let width = desktop.clientWidth
+        
+
+        this.#maxButton.classList.add('checked')
+        this.#maxButton.childNodes.item(0).innerText = 'collapse_content'
+        this.container.classList.add('maximized')
+        let w = parseFloat(this.container.clientWidth)
+        let h = parseFloat(this.container.clientHeight)
+        let x = parseFloat(this.container.style.left)
+        let y = parseFloat(this.container.style.top)
+        this.#lastSize = new Rect(x, y, w, h)
+
+        this.container.style.left = marginLeft + 'px'
+        
+        this.container.style.top = 0
+        this.container.style.width = (width - marginLeft) + 'px'
+        this.container.style.height = '100%'
+
+        console.log(this.#lastSize)
+    }
+
+    unmaximize() {
+        this.#maxButton.classList.remove('checked')
+        this.#maxButton.childNodes.item(0).innerText = 'expand_content'
+
+        this.container.classList.remove('maximized')
+        
+        this.container.style.left = this.#lastSize.x + 'px'
+        this.container.style.top = this.#lastSize.y + 'px'
+        this.container.style.width = this.#lastSize.w + 'px'
+        this.container.style.height = this.#lastSize.h + 'px'
+
+        console.log(this.#lastSize);
     }
 
     close() {

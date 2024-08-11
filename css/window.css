@@ -11,6 +11,10 @@
     overflow: hidden;
 }
 
+.window-container.maximized {
+    transition: 0.2s;
+}
+
 .window-container.closing {
     transition: 0.3s;
     transform: scale(0);
