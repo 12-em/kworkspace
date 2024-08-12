@@ -13,7 +13,10 @@
 
 .window-container.animated {
     transition-duration: 0.2s;
-    transition-property: width, height, top, left;
+}
+
+.window-container.maximized {
+    border-radius: 0;
 }
 
 .window-container.closing {

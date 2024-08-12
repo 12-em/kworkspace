@@ -177,7 +177,7 @@ export default class Window {
 
         this.#maxButton.classList.add('checked')
         this.#maxButton.childNodes.item(0).innerText = 'collapse_content'
-        this.container.classList.add('animated')
+        this.container.classList.add('animated', 'maximized')
         let w = parseFloat(this.container.clientWidth)
         let h = parseFloat(this.container.clientHeight)
         let x = parseFloat(this.container.style.left)
@@ -202,6 +202,7 @@ export default class Window {
         this.#maxButton.childNodes.item(0).innerText = 'expand_content'
 
         this.container.classList.add('animated')
+        this.container.classList.remove('maximized')
         
         this.container.style.left = this.#lastSize.x + 'px'
         this.container.style.top = this.#lastSize.y + 'px'

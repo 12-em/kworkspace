@@ -6,6 +6,7 @@ import Window from "./window.js";
 export function makeResizable(window) {
     window.container.addEventListener('mousemove', (e) => {
         if (window.isResizing) return; // Don't change cursor if already resizing
+        if (window.isMaximized) return; // Don't resize if window is maximized
     
         const rect = window.container.getBoundingClientRect();
         const offsetX = e.clientX - rect.left;
@@ -20,6 +21,7 @@ export function makeResizable(window) {
     });
     
     window.container.addEventListener('mousedown', (e) => {
+        if(window.isMaximized) return
         const rect = window.container.getBoundingClientRect();
         const offsetX = e.clientX - rect.left;
         const offsetY = e.clientY - rect.top;
