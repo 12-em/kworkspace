@@ -98,6 +98,7 @@ export default class Window {
             
              if(win.isMaximized) win.unmaximize() 
             }
+        this.dragArea.ondblclick = function() { win.toggleMaximize() }
 
         this.container.appendChild(this.#titleBar)
 
@@ -156,9 +157,7 @@ export default class Window {
     }
 
     toggleMaximize() {
-        this.isMaximized = !this.isMaximized
-
-        if(this.isMaximized) {
+        if(!this.isMaximized) {
             this.maximize()
         } else {
             this.unmaximize()    
@@ -166,6 +165,7 @@ export default class Window {
     }
 
     maximize() {
+        this.isMaximized = true
         let win = this
         let launcher = document.querySelector('#launcher-area')
         let marginLeft = launcher.clientWidth
@@ -196,6 +196,7 @@ export default class Window {
     }
 
     unmaximize() {
+        this.isMaximized = false
         let win = this
         this.#maxButton.classList.remove('checked')
         this.#maxButton.childNodes.item(0).innerText = 'expand_content'
