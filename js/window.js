@@ -55,7 +55,7 @@ export default class Window {
     /**
      * @type { Rect }
      */
-    #lastSize
+    lastSize = new Rect(0, 0, 300, 200)
 
     /**
      * @type { Function }
@@ -180,13 +180,12 @@ export default class Window {
         this.container.classList.add('animated', 'maximized')
         let w = parseFloat(this.container.clientWidth)
         let h = parseFloat(this.container.clientHeight)
-        let x = parseFloat(this.container.style.left)
-        let y = parseFloat(this.container.style.top)
-        this.#lastSize = new Rect(x, y, w, h)
 
-        this.container.style.left = marginLeft + 'px'
-        
-        this.container.style.top = 0
+        this.lastSize.w = w
+        this.lastSize.h = h
+
+        this.container.style.transform = `translate(${marginLeft}px, 0)`
+
         this.container.style.width = (width - marginLeft) + 'px'
         this.container.style.height = '100%'
 
@@ -204,10 +203,9 @@ export default class Window {
         this.container.classList.add('animated')
         this.container.classList.remove('maximized')
         
-        this.container.style.left = this.#lastSize.x + 'px'
-        this.container.style.top = this.#lastSize.y + 'px'
-        this.container.style.width = this.#lastSize.w + 'px'
-        this.container.style.height = this.#lastSize.h + 'px'
+        this.container.style.transform = `translate(${this.lastSize.x}px, ${this.lastSize.y}px)`
+        this.container.style.width = this.lastSize.w + 'px'
+        this.container.style.height = this.lastSize.h + 'px'
 
         setTimeout(function() {
             win.container.classList.remove('animated')

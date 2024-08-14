@@ -9,6 +9,10 @@
     user-select: none; /* prevents text selection while dragging */
     box-shadow: 2px 2px 20px 1px rgba(100, 100, 100, 0.2);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    will-change: transform, width, height;
 }
 
 .window-container.animated {
@@ -16,16 +20,25 @@
 }
 
 .window-container.maximized {
-    border-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    backdrop-filter: none;
+    background-color: #fefefe;
 }
 
 .window-container.closing {
-    transition: 0.3s;
+    transition: 0.1s;
     transform: scale(0);
 }
 
+.window-content {
+    width: 100%;
+    height: 100%;
+    text-align: start;
+    overflow: auto;
+}
+
 .window-titlebar {
-    background-color: #fefefe;
     display: flex;
     align-items: center;
     height: fit-content;

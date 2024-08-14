@@ -1,0 +1,11 @@
+iframe {
+    border: 0;
+    flex-grow: 1;
+}
+
+body.app-body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}

@@ -1,5 +1,7 @@
 @import url(window.css);
 @import url(launcher.css);
+@import url(app.css);
+@import url(components/components.css);
 
 @font-face {
     font-family: Inter;
@@ -15,4 +17,5 @@ body {
     /* TEMPORARY */
     background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp4755458.jpg&f=1&nofb=1&ipt=41bcba899050902e12b610517613c6f0914b521b6c779bae36cdaa9553de154a&ipo=images);
     background-size: cover;
+    overflow: hidden;
 }

@@ -9,14 +9,30 @@
 </head>
 <body>
     <div id="launcher-area">
-        kys
+        <div class="launcher-shelf">
+            <div class="launcher-item" tooltip="File Manager">
+                <img src="/apps/file-manager/icon.png" alt="fileman icon" class="launcher-item-icon">
+            </div>
+
+            <div class="launcher-item" tooltip="Notes">
+                <img src="/apps/notepad/icon.png" alt="fileman icon" class="launcher-item-icon">
+            </div>
+
+            <div class="launcher-item" tooltip="App Launcher">
+                <img src="/apps/app-list/icon.png" alt="appl icon" class="launcher-item-icon">
+            </div>
+        </div>
     </div>
     <div id="draggable-area">
     </div>
     <script type="module">
-        import { createWindow, windows } from "./js/main.js"
+        import { createWindow, windows, init } from "./js/main.js"
+
+        init()
 // Make the DIV element draggable:
-        var win1 = createWindow('noggers')
+
+        document.onkeydown = function(event) {
+        }
 
     </script>
 </body>

@@ -2,50 +2,72 @@ import Window from "./window.js";
 
 /**
  * 
- * @param {Window} window 
+ * @param {Window} wmwindow 
  */
 export function makeDraggable(wmwindow) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (wmwindow.dragArea) {
-      // if present, the header is where you move the DIV from:
+  let startX = 0, startY = 0, currentX = 0, currentY = 0, initialX = 0, initialY = 0;
+  let isDragging = false;
+  let animationFrameId = null;
+
+  if (wmwindow.dragArea) {
       wmwindow.dragArea.onmousedown = dragMouseDown;
-    } else {
-      // otherwise, move the DIV from anywhere inside the DIV:
+  } else {
       wmwindow.container.onmousedown = dragMouseDown;
-    }
-  
-    function dragMouseDown(e) {
-      if(wmwindow.isMaximized) {
-        wmwindow.unmaximize()
-        return
+  }
+
+  // Promote the container to its own layer for better performance
+  wmwindow.container.style.willChange = 'transform';
+
+  function dragMouseDown(e) {
+      if (wmwindow.isMaximized) {
+          wmwindow.unmaximize();
+          return;
       }
       e = e || window.event;
       e.preventDefault();
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
+
+      const transform = wmwindow.container.style.transform;
+      const matrix = new WebKitCSSMatrix(transform); // Parse the current transform matrix
+
+      initialX = matrix.m41;
+      initialY = matrix.m42;
+
+      startX = e.clientX;
+      startY = e.clientY;
+
+      isDragging = true;
       document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
-    }
-  
-    function elementDrag(e) {
+  }
+
+  function elementDrag(e) {
+      if (!isDragging) return;
+
       e = e || window.event;
       e.preventDefault();
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      // set the element's new position:
-      wmwindow.container.style.top = (wmwindow.container.offsetTop - pos2) + "px";
-      wmwindow.container.style.left = (wmwindow.container.offsetLeft - pos1) + "px";
-    }
-  
-    function closeDragElement() {
-      // stop moving when mouse button is released:
+
+      currentX = initialX + (e.clientX - startX);
+      currentY = initialY + (e.clientY - startY);
+
+      // Use requestAnimationFrame to update the transform
+      if (animationFrameId === null) {
+          animationFrameId = requestAnimationFrame(() => {
+              wmwindow.container.style.transform = `translate(${currentX}px, ${currentY}px)`;
+              wmwindow.lastSize.x = currentX
+              wmwindow.lastSize.y = currentY              
+              animationFrameId = null;
+          });
+      }
+  }
+
+  function closeDragElement() {
+      isDragging = false;
       document.onmouseup = null;
       document.onmousemove = null;
-    }
+
+      if (animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+      }
   }
-  
+}
